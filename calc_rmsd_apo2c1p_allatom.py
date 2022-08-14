@@ -17,7 +17,6 @@ from MDAnalysis import *
 from MDAnalysis.analysis.rms import RMSD, rmsd
 from MDAnalysis.analysis import align
 from MDAnalysis.analysis.distances import dist
-from helper.general import get_basename
 
 nres = 214
 

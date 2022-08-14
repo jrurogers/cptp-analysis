@@ -11,24 +11,21 @@ also calculates for each helix individually
 """
 
 
-import sys
+import sys, os
 import numpy as np
 from MDAnalysis import *
 from MDAnalysis.analysis.rms import RMSD, rmsd
 from MDAnalysis.analysis import align
-from helper.general import get_basename
 
 
 def main():
    u=Universe(sys.argv[1], sys.argv[2])
-   sel=u.select_atoms('(resid %i-%i) and name CA' % (8+md_resid_offset, 214+md_resid_offset))
-   ref=Universe(sys.argv[3])
-   refsel=ref.select_atoms('(resid 8-214) and name CA')
-
    prot = u.select_atoms('protein')
    if prot.resids[0] > 1: md_resid_offset = 264
    else: md_resid_offset = 0
-
+   sel=u.select_atoms('(resid %i-%i) and name CA' % (8+md_resid_offset, 214+md_resid_offset))
+   ref=Universe(sys.argv[3])
+   refsel=ref.select_atoms('(resid 8-214) and name CA')
 
    # helix definitions
    helices = {'alphaN': u.select_atoms('resid %i-%i and name CA' % (10+md_resid_offset, 20+md_resid_offset)),\
@@ -50,7 +47,7 @@ def main():
                  'alpha7': ref.select_atoms('resid 168-174 and name CA'),\
                  'alpha8': ref.select_atoms('resid 180-208 and name CA')}
 
-   out='rmsd_'+get_basename(sys.argv[2])[:-4]+'_ref'+get_basename(sys.argv[3])[:-4]+'.txt'
+   out='rmsd_'+os.path.basename(sys.argv[2])[:-4]+'_ref'+os.path.basename(sys.argv[3])[:-4]+'.txt'
    with open(out, 'w') as f:
       for t in u.trajectory:
          r=rmsd(sel.positions,refsel.positions,center=True,superposition=True)

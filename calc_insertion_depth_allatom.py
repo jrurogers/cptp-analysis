@@ -35,9 +35,9 @@ def main():
    prot=u.select_atoms('protein and not name H*')
    box=u.dimensions
 
-   print top.residues
-   print bot.residues
-   print prot.residues
+   print(top.residues)
+   print(bot.residues)
+   print(prot.residues)
 
    # determine ref leaflet
    comtop = top.center_of_mass(pbc=True)[2]
@@ -49,7 +49,7 @@ def main():
    dist2 -= round(dist2/box[2],0)*box[2]
    if abs(dist1) < abs(dist2): topref = True
    else: topref = False
-   print dist1, dist2, topref
+   print(dist1, dist2, topref)
 
    # phosphate selection
    if topref:
@@ -60,7 +60,7 @@ def main():
    numres = len(prot.residues)
    depths = [[] for i in range(numres)]
    for t in u.trajectory:
-      if t.time/1000.0 % 10 == 0: print t.time/1000.0
+      if t.time/1000.0 % 10 == 0: print(t.time/1000.0)
       zref = np.mean(po4.positions[:,2])
       for i in range(numres):
          res = prot.select_atoms('resid %i' % (i+265))

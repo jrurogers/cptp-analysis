@@ -17,13 +17,12 @@ calc av cos theta_z on grid in xy plane around protein
 
 REFPROT = "reference_structures/av_xy_plane_ref.gro"
 
-import sys, re
+import sys, os, re
 import numpy as np
 from MDAnalysis import *
 from MDAnalysis import transformations
 from MDAnalysis.analysis.distances import distance_array, self_distance_array
 from MDAnalysis.analysis.density import density_from_Universe
-from helper.general import get_basename
 
 def calc_dist_pbc(a,b,box):
    d = a - b
@@ -52,7 +51,9 @@ def main():
    else: memsel = 'resid 133:264 and name C23 C24 C25 C26 C27 C28 C29 C210 C211 C212 C213 C214 C215 C216 C217 C218 C33 C34 C35 C36 C37 C38 C39 C310 C311 C312 C313 C314 C315 C316 C3F C4F C5F C6F C7F C8F C9F C10F C11F C12F C13F C15F C14F C16F C5S C6S C7S C8S C9S C10S C11S C12S C13S C14S C15S C16S C17S C18S'
 
    # ref prot gro
-   ref = Universe(REFPROT)
+   loc_dir = os.path.dirname(os.path.abspath(__file__))
+   abs_path_ref = os.path.join(loc_dir, REFPROT)
+   ref = Universe(abs_path_ref)
    # shift to box center
    com = ref.select_atoms('protein').center_of_mass(pbc=True)
    boxcenter = ref.dimensions*0.5
@@ -79,9 +80,9 @@ def main():
    # get cos theta data
    thetas = np.loadtxt(sys.argv[3], usecols=(3,4))
 
-   print "Calculating av cos theta z of lipids on xy grid for gro %s and xtc %s" % (sys.argv[1], sys.argv[2])
-   if topref: print "Using top leaflet as reference"
-   else: print "Using bottom leaflet as reference"
+   print("Calculating av cos theta z of lipids on xy grid for gro %s and xtc %s" % (sys.argv[1], sys.argv[2]))
+   if topref: print("Using top leaflet as reference")
+   else: print("Using bottom leaflet as reference")
 
    # grid
    xgrid = np.linspace(1.0,93.0,num=47)
@@ -94,7 +95,7 @@ def main():
    memc = u.select_atoms(memsel)
    for t in u.trajectory:
       if t.time/1000.0 < 50: continue # statistics from 50-100 ns
-      if t.time/1000.0 % 10 == 0: print t.time/1000.0
+      if t.time/1000.0 % 10 == 0: print(t.time/1000.0)
 
       # com of each lipid
       for i in range(len(memc.residues)):
@@ -105,9 +106,9 @@ def main():
 
    xs = np.array(xs)
    ys = np.array(ys)
-   print xs.shape, ys.shape, thetas.shape
+   print(xs.shape, ys.shape, thetas.shape)
 
-   fname = 'memlip_av_costhetaz_xy_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname = 'memlip_av_costhetaz_xy_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for i in range(len(xgrid)):
          xndxs = (xs >= xgrid[i]-0.5*grid_width) & (xs < xgrid[i]+0.5*grid_width)

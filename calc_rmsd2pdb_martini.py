@@ -11,12 +11,11 @@ also calculates for each helix individually
 """
 
 
-import sys
+import sys, os
 import numpy as np
 from MDAnalysis import *
 from MDAnalysis.analysis.rms import RMSD, rmsd
 from MDAnalysis.analysis import align
-from helper.general import get_basename
 
 
 def main():
@@ -45,7 +44,7 @@ def main():
                  'alpha7': ref.select_atoms('resid 168-174 and name BB'),\
                  'alpha8': ref.select_atoms('resid 180-208 and name BB')}
 
-   out='rmsd_'+get_basename(sys.argv[2])[:-4]+'_ref'+get_basename(sys.argv[3])[:-4]+'.txt'
+   out='rmsd_'+os.path.basename(sys.argv[2])[:-4]+'_ref'+os.path.basename(sys.argv[3])[:-4]+'.txt'
    with open(out, 'w') as f:
       for t in u.trajectory:
          r=rmsd(sel.positions,refsel.positions,center=True,superposition=True)

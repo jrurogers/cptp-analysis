@@ -11,13 +11,12 @@ oriented towards the center of the bilayer: cos theta_z = 1
 """
 
 
-import sys, re
+import sys, os, re
 import numpy as np
 from MDAnalysis.analysis.distances import distance_array, self_distance_array
 from MDAnalysis.analysis.contacts import soft_cut_q
 from MDAnalysis.lib.util import convert_aa_code
 from MDAnalysis import *
-from helper.general import get_basename
 
 def calc_dist_pbc(a,b,box):
    d = a - b
@@ -56,7 +55,7 @@ def main():
    dists = []
 
    # loop over traj and calc quantities
-   fname = 'memlip_costhetaz_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname = 'memlip_costhetaz_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for t in u.trajectory:
          if t.time/1000.0 < 50: continue # statistics from 50-100 ns
@@ -97,7 +96,7 @@ def main():
    hist /= hist.sum()
    widthx = 0.5*(binx[1]-binx[0])
    widthy = 0.5*(biny[1]-biny[0])
-   fname='memlip_hist2d_protdist_costhetaz_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname='memlip_hist2d_protdist_costhetaz_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for i in range(len(hist)):
          for j in range(len(hist[0])):

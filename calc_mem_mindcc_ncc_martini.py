@@ -13,13 +13,12 @@ in membrane as function of distance from protein in xy
 NCCCUTOFF = 14.0 # cutoff for close contact, angstrom
 
 
-import sys, re
+import sys, os, re
 import numpy as np
 from MDAnalysis.analysis.distances import distance_array, self_distance_array
 from MDAnalysis.analysis.contacts import soft_cut_q
 from MDAnalysis.lib.util import convert_aa_code
 from MDAnalysis import *
-from helper.general import get_basename
 
 def calc_dist_pbc(a,b,box):
    d = a - b
@@ -46,9 +45,9 @@ def main():
    if topref: memc = u.select_atoms('resid 215:346 and name C1A D2A C3A C4A C1B C2B C3B C4B T1A C2A C3A C1B C2B C3B C4B')
    else: memc = u.select_atoms('resid 347:478 and name C1A D2A C3A C4A C1B C2B C3B C4B T1A C2A C3A C1B C2B C3B C4B')
 
-   print "Calculating min dcc and ncc of lipids for gro %s and xtc %s" % (sys.argv[1], sys.argv[2])
-   if topref: print "Using top leaflet as reference"
-   else: print "Using bottom leaflet as reference"
+   print("Calculating min dcc and ncc of lipids for gro %s and xtc %s" % (sys.argv[1], sys.argv[2]))
+   if topref: print("Using top leaflet as reference")
+   else: print("Using bottom leaflet as reference")
 
    # calc min dcc, ncc as fcn of dist from prot COM
    mindccs = []
@@ -61,11 +60,11 @@ def main():
       numc_per_lipid[i] = len(memc.select_atoms('resid %i' % memc.residues[i].resid))
 
    # loop over traj and calc quantities
-   fname = 'memlip_mindcc_ncc_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname = 'memlip_mindcc_ncc_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for t in u.trajectory:
          if t.time % 100 != 0: continue # statistics every 100 ps
-         if t.time/1000.0 % 100 == 0: print t.time/1000.0
+         if t.time/1000.0 % 100 == 0: print(t.time/1000.0)
 
          # prot center of mass
          comprot = prot.center_of_mass(pbc=True)[:2]
@@ -105,7 +104,7 @@ def main():
    hist /= hist.sum()
    widthx = 0.5*(binx[1]-binx[0])
    widthy = 0.5*(biny[1]-biny[0])
-   fname='memlip_hist2d_protdist_mindcc_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname='memlip_hist2d_protdist_mindcc_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for i in range(len(hist)):
          for j in range(len(hist[0])):
@@ -120,7 +119,7 @@ def main():
    hist /= hist.sum()
    widthx = 0.5*(binx[1]-binx[0])
    widthy = 0.5*(biny[1]-biny[0])
-   fname='memlip_hist2d_protdist_ncc_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname='memlip_hist2d_protdist_ncc_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for i in range(len(hist)):
          for j in range(len(hist[0])):

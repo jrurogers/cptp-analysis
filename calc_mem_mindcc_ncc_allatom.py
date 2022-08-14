@@ -13,13 +13,12 @@ in membrane as function of distance from protein in xy
 NCCCUTOFF = 10.0 # cutoff for close contact, angstrom
 
 
-import sys, re
+import sys, os, re
 import numpy as np
 from MDAnalysis.analysis.distances import distance_array, self_distance_array
 from MDAnalysis.analysis.contacts import soft_cut_q
 from MDAnalysis.lib.util import convert_aa_code
 from MDAnalysis import *
-from helper.general import get_basename
 
 def calc_dist_pbc(a,b,box):
    d = a - b
@@ -61,7 +60,7 @@ def main():
       numc_per_lipid[i] = len(memc.select_atoms('resid %i' % memc.residues[i].resid))
 
    # loop over traj and calc quantities
-   fname = 'memlip_mindcc_ncc_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname = 'memlip_mindcc_ncc_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for t in u.trajectory:
          if t.time/1000.0 < 50: continue # statistics from 50-100 ns
@@ -105,7 +104,7 @@ def main():
    hist /= hist.sum()
    widthx = 0.5*(binx[1]-binx[0])
    widthy = 0.5*(biny[1]-biny[0])
-   fname='memlip_hist2d_protdist_mindcc_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname='memlip_hist2d_protdist_mindcc_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for i in range(len(hist)):
          for j in range(len(hist[0])):
@@ -120,7 +119,7 @@ def main():
    hist /= hist.sum()
    widthx = 0.5*(binx[1]-binx[0])
    widthy = 0.5*(biny[1]-biny[0])
-   fname='memlip_hist2d_protdist_ncc_'+get_basename(sys.argv[2])[:-4]+'.txt'
+   fname='memlip_hist2d_protdist_ncc_'+os.path.basename(sys.argv[2])[:-4]+'.txt'
    with open(fname, 'w') as f:
       for i in range(len(hist)):
          for j in range(len(hist[0])):

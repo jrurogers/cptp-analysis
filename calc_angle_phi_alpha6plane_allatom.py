@@ -11,9 +11,8 @@ calculates angle between helix 2 and normal of plane of helix 6
 
 NBINS=90
 
-import sys
+import sys, os
 import numpy as np
-from helper.general import get_basename
 from math import degrees,atan2
 from MDAnalysis import *
 from MDAnalysis.lib.mdamath import angle, dihedral
@@ -30,7 +29,7 @@ def main():
    if prot.resids[0] > 1: memoffset = 264
    else: memoffset = 0
 
-   outname = get_basename(sys.argv[2])[:-4]
+   outname = os.path.basename(sys.argv[2])[:-4]
 
    # atoms to define plane of helix 6
    ca155 = u.select_atoms('resid %i and name CA' % (155+memoffset))
@@ -49,7 +48,7 @@ def main():
 
    with open("angle_phi_alpha6plane_"+outname+".txt", 'w') as f:
       for t in u.trajectory:
-         if t.time/1000.0 % 10 == 0: print t.time/1000.0
+         if t.time/1000.0 % 10 == 0: print(t.time/1000.0)
          # coordinates of points to define plane
          a = np.ravel(ca155.positions)
          b = np.ravel(ca158.positions)

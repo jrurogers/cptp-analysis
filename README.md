@@ -72,3 +72,8 @@ Property: `mindcc_ncc`
 
 Average $n_{\rm CC}$, $\min(d_{\rm CC})$, and $r_{\rm LxS}$ as a function of $x$ and $y$ are calculated from the output of `calc_mem_mindcc_ncc_allatom.py`. The reaction coordinate for passive lipid transport via solvent, $r_{\rm LxS}$, is a function of $n_{\rm CC}$ and $\min(d_{\rm CC})$ as described in ["Membrane hydrophobicity determines the activation free energy of passive lipid transport"](https://www.sciencedirect.com/science/article/abs/pii/S0006349521006020) and ["Breakage of hydrophobic contacts limits the rate of passive lipid exchange between membranes"](https://pubs.acs.org/doi/abs/10.1021/acs.jpcb.0c04139). The coefficients used to calculate $r_{\rm LxS}$ are set in the code for all-atom simulations and would need to be changed for analysis of coarse-grained simulations.
 
+## Requirements
+
+* Python 2.7+
+* Numpy 1.16+
+* MDAnalysis 0.20

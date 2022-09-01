@@ -76,7 +76,6 @@ def main():
    workflow.append(transformations.fit_rot_trans(prot, ref, plane="xy", weights="mass"))
    u.trajectory.add_transformations(*workflow)
 
-   # get min dcc and ncc data
    # get cos theta data
    thetas = np.loadtxt(sys.argv[3], usecols=(3,4))
 

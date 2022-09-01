@@ -1,6 +1,6 @@
 TRJCONV="gmx trjconv"
 EDITCONF="gmx editconf"
-# location of mdpock
+# location of mdpocket
 MDPOCKET="/usr/local/bin/mdpocket"
 
 # directory with trajectories to analyze

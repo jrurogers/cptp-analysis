@@ -1,5 +1,5 @@
 # cptp-analysis
-Code for analysis of MD simulations of CPTP described in "Ceramide-1-phosphate transfer protein enhances lipid transport by disrupting hydrophobic lipid-membrane contacts"
+Code for analysis of MD simulations of CPTP described in "Ceramide-1-phosphate transfer protein enhances lipid transport by disrupting hydrophobic lipid-membrane contacts" (bioRxiv DOI: [https://doi.org/10.1101/2022.09.10.507427](https://doi.org/10.1101/2022.09.10.507427)) by Jula R. Rogers and Phillip L. Geissler.
 
 ## Analysis of simulation trajectories
 General usage of analysis code:

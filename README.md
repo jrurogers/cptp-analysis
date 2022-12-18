@@ -59,7 +59,7 @@ Root-mean-square fluctuation calculated for ${\rm C}\alpha$ atoms.
 ### Number of hydrophobic lipid–protein contacts
 Property: `mem_prot_mindcc_ncc`
 
-Number of hydrophobic contacts between protein hydrophobic carbons and lipid hydrophobic carbons, $n_{\rm CC}^{(\rm lip-prot)}$, and minimum distance between these pairs of hydrophobic carbons, $\min(d_{\rm CC})^{(\rm lip-prot)}$. Code outputs $n_{\rm CC}^{(\rm lip-prot)}$ and $\min(d_{\rm CC})^{(\rm lip-prot)}$ for each membrane lipid found in the leaflet that CPTP is bound for every frame of the trajectory and also for each protein residue of CPTP.
+Number of hydrophobic contacts between protein hydrophobic carbons and lipid hydrophobic carbons, $n_{\rm CC}^{(\rm lip-prot)}$, and minimum distance between these pairs of hydrophobic carbons, $\min(d_{\rm CC}^{(\rm lip-prot)})$. Code outputs $n_{\rm CC}^{(\rm lip-prot)}$ and $\min(d_{\rm CC}^{(\rm lip-prot)})$ for each membrane lipid found in the leaflet that CPTP is bound for every frame of the trajectory and also for each protein residue of CPTP.
 
 ### Average lipid acyl chain order parameter
 Property: `mem_scc`
